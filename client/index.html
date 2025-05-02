@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Inventory Manager</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Book Inventory Manager</h1>
+      <button id="addBookBtn" class="btn btn-primary">Add New Book</button>
+    </header>
+    
+    <div id="alertBox" class="alert"></div>
+    
+    <div class="search-container">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search books...">
+      <button id="searchBtn" class="btn btn-primary">Search</button>
+    </div>
+    
+    <table id="booksTable">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Author</th>
+          <th>ISBN</th>
+          <th>Published Date</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    
+    <div id="bookModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modalTitle">Add New Book</h2>
+          <span class="close-btn">&times;</span>
+        </div>
+        <form id="bookForm">
+          <input type="hidden" id="bookId">
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" required>
+          </div>
+          <div class="form-group">
+            <label for="author">Author</label>
+            <input type="text" id="author" required>
+          </div>
+          <div class="form-group">
+            <label for="isbn">ISBN</label>
+            <input type="text" id="isbn" required>
+          </div>
+          <div class="form-group">
+            <label for="published_date">Published Date</label>
+            <input type="date" id="published_date" required>
+          </div>
+          <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" id="price" step="0.01" required>
+          </div>
+          <div class="form-actions">
+            <button type="button" id="cancelBtn" class="btn btn-danger">Cancel</button>
+            <button type="submit" id="saveBtn" class="btn btn-success">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
