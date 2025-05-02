@@ -1,120 +1,175 @@
-# Book Inventory API
+# Book Inventory System
 
->This is a backend API built with **Django** and **PostgreSQL** that allows users to perform full **CRUD operations** (Create, Read, Update, Delete) on a collection of books. The API uses **JSON responses** and is built with **function-based views (FBVs)**.
+>A full-stack book inventory management system with Django backend and vanilla JavaScript frontend.
 
----
+## Table of Contents
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [System Architecture](#system-architecture)
+- [Installation](#installation)
+- [API Documentation](#api-documentation)
+- [Frontend Usage](#frontend-usage)
+- [Development Status](#development-status)
+
 
 ## Features
 
-- Create a new book
-- View all books or a specific book
-- Update book information
-- Delete a book
-- JSON-based API (no templates)
-- Environment variables using `.env` for database credentials
+### Backend
+✔️ Full CRUD operations  
+✔️ PostgreSQL database  
+✔️ JSON API endpoints  
+✔️ Environment configuration  
+✔️ Function-based views  
 
----
+### Frontend
+✔️ Responsive interface  
+✔️ Search functionality  
+✔️ Modal forms  
+✔️ Alert notifications  
+✔️ No framework dependencies  
 
 ## Tech Stack
 
-- **Backend Framework**: Django (Python)
-- **Database**: PostgreSQL
-- **API Style**: Function-Based Views (FBVs)
-- **JSON**: Used for all request/response payloads
+| Component       | Technology               |
+|----------------|--------------------------|
+| Backend        | Django (Python)          |
+| Database       | PostgreSQL               |
+| Frontend       | HTML5, CSS3, ES6         |
+| API Client     | Fetch API                |
+| Configuration  | python-decouple (.env)   |
 
----
-
-## Setup Instructions
-
-### 1. Clone the Repository
-
-```bash
-git clone <your-repo-url>
-cd BookInventoryApp
-```
-
-## 2. Create and Activate Virtual Environment
+## System Architecture
 
 ```bash
-python -m venv env
-env\Scripts\activate # activate the virtual environment (env) on Windows
+book-inventory/
+├── backend/
+│ ├── books/
+│ │ ├── models.py
+│ │ ├── views.py
+│ │ └── urls.py
+│ ├── config/
+│ │ ├── settings.py
+│ │ └── urls.py
+│ ├── .env
+│ └── manage.py
+│
+└── frontend/
+├── index.html
+├── styles.css
+└── app.js
 ```
 
----
+## Installation
 
-## 3. Install Dependencies
-
+### Backend Setup
 ```bash
-pip install django pycopg2 python-decouple
-```
+# Clone repository
+git clone https://github.com/yourrepo/book-inventory.git
+cd book-inventory/backend
 
----
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+.\venv\Scripts\activate  # Windows
 
-## 4. Set Up PostgreSQL
+# Install dependencies
+pip install django psycopg2 python-decouple
 
-Ensure PostgreSQL is installed and running
-
-Create a database and user:
-
-```sql
+# Configure database (PostgreSQL)
 CREATE DATABASE book_inventory;
-CREATE USER myuser WITH PASSWORD 'mypassword';
-GRANT ALL PRIVILAGES ON DATABASE book_inventory TO myuser;
-```
+CREATE USER bookuser WITH PASSWORD 'securepassword';
+GRANT ALL PRIVILEGES ON DATABASE book_inventory TO bookuser;
 
----
-
-## 5. Create `.env` File
-
-In the project root:
-
-```env
+# Set environment variables (.env)
 DB_NAME=book_inventory
-DB_USER=myuser
-DB_PASSWORD=mypassword
+DB_USER=bookuser
+DB_PASSWORD=securepassword
 DB_HOST=localhost
 DB_PORT=5432
-```
 
----
-
-## Running the Project
-
-Apply Migrations and Start Server
-
-```bash
-python manage.py makemigrations
+# Run migrations
 python manage.py migrate
+
+# Start server
 python manage.py runserver
 ```
 
----
+### Frontend Setup
 
-## Project Sructure
+Update `API_BASE_URL` in `client/scripts.js`
 
-```bash
-BookInventoryApp/
-├── books/
-│   ├── models.py        # Book model
-│   ├── views.py         # CRUD views
-│   ├── urls.py          # App-specific URLs
-├── config/
-│   ├── settings.py      # DB config with decouple
-│   ├── urls.py          # Main project URLs
-├── .env                 # Environment variables
-├── manage.py
+Open `client/index.html` in browser
+
+## API Documentation
+
+Base URL: `http://localhost:8000/api/books/`
+
+## API Documentation
+
+**Base URL:** `http://localhost:8000/api/books/`
+
+| Method | Endpoint       | Description          | Request Body                              |
+|--------|---------------|----------------------|------------------------------------------|
+| GET    | `/`           | List all books       | None                                     |
+| POST   | `/`           | Create book          | `{title, author, isbn, published_date, price}` |
+| GET    | `/<id>/`      | Get book details     | None                                     |
+| PUT    | `/<id>/`      | Update book          | Partial book data                        |
+| DELETE | `/<id>/`      | Delete book          | None                                     |
+
+**Example Request:**
+```json
+POST /api/books/
+{
+  "title": "Dune",
+  "author": "Frank Herbert",
+  "isbn": "9780441013593",
+  "published_date": "1965-08-01",
+  "price": "9.99"
+}
 ```
 
----
+## Frontend Usage
 
-## API Endpoints
+### Viewing Books
+- The main interface displays all books in a responsive table
+- Columns include: Title, Author, ISBN, Published Date, Price
+- Real-time search functionality filters results as you type
 
-| Method | Endpoint           | Description            |
-| ------ | ------------------ | ---------------------- |
-| GET    | `/api/books/`      | List all books         |
-| POST   | `/api/books/`      | Create a new book      |
-| GET    | `/api/books/<id>/` | Retrieve a single book |
-| PUT    | `/api/books/<id>/` | Update a book          |
-| DELETE | `/api/books/<id>/` | Delete a book          |
+### Adding a New Book
+1. Click the **"Add New Book"** button
+2. Fill out the form in the modal:
+   - **Title** (required)
+   - **Author** (required)
+   - **ISBN** (required, 13 digits)
+   - **Published Date** (date picker)
+   - **Price** (numeric field)
+3. Click **"Save"** to submit
 
----
+### Editing Existing Books
+1. Click the **"Edit"** button on any book row
+2. The form will pre-populate with current values
+3. Make your changes
+4. Click **"Save"** to update
+
+### Deleting Books
+1. Click the **"Delete"** button on any book row
+2. A confirmation dialog will appear
+3. Click **"Confirm"** to permanently delete
+
+## Development Status
+
+### Completed Features
+| Feature               | Status |
+|-----------------------|--------|
+| CRUD Operations       | ✅     |
+| Responsive Design     | ✅     |
+| Search Functionality  | ✅     |
+| Form Validation       | ✅     |
+| Error Handling        | ✅     |
+
+### In Progress
+```diff
++ User Authentication System
++ API Documentation Page
+! Performance Optimizations
+```
