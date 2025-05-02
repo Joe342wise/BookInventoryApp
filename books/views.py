@@ -19,8 +19,16 @@ def book_to_dict(book):
 @csrf_exempt
 def book_list(request):
     if request.method == 'GET':
-        books = Book.objects.all()
-        data = [book_to_dict(book) for book in books]
+        if 'search' in request.GET:
+            search = request.GET['search']
+            books = Book.objects.filter(title__icontains=search)
+            data = [book_to_dict(book) for book in books]
+            if not data:
+                return JsonResponse({'error': 'No books found'}, status=404)
+            return JsonResponse(data, safe=False)
+        else:
+            books = Book.objects.all()
+            data = [book_to_dict(book) for book in books]
         return JsonResponse(data, safe=False)
     
     elif request.method == 'POST':
