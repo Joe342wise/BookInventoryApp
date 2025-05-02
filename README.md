@@ -64,7 +64,7 @@ GRANT ALL PRIVILAGES ON DATABASE book_inventory TO myuser;
 
 ---
 
-## 5. Create ```.env``` File
+## 5. Create `.env` File
 
 In the project root:
 
